@@ -38,7 +38,7 @@ const LoginPage = () => {
     if (user?.role === 'patient') {
       navigate(`/patient-dashboard/${user.id}`);
     } else if (user?.role === 'caretaker') {
-      navigate(`/caretaker-dashboard/${user.id}`);
+      navigate("/caretaker-dashboard");
     } else {
       navigate('/');
     }
