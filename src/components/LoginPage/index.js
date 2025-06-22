@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 import './index.css';
 
 const LoginPage = () => {
@@ -11,6 +11,9 @@ const LoginPage = () => {
     errorMsg: '',
   });
 
+  const [userRole, setUserRole] = useState(null);
+  const [userId, setUserId] = useState(null);
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,57 +21,77 @@ const LoginPage = () => {
   };
 
   const handleSuccessful = async (data) => {
-    Cookies.set("jwt_token", data.jwtToken, { expires: 30 });
+    Cookies.set('jwt_token', data.jwtToken, { expires: 30 });
 
     try {
-      const userRes = await fetch(`https://med-track-backend.onrender.com/users?username=${credentials.username}`);
+      const userRes = await fetch(
+        `https://med-track-backend.onrender.com/users?username=${credentials.username}`
+      );
       const userData = await userRes.json();
-
       const user = Array.isArray(userData) ? userData[0] : userData;
-      if (user?.role === "patient") {
-        navigate(`/patient-dashboard/${user.id}`);
+
+      if (user?.role) {
+        setUserRole(user.role);
+        setUserId(user.id);
       } else {
-        navigate("/caretaker-dashboard");
+        handleFailure('User role not found');
       }
     } catch (err) {
-      console.error("Failed to fetch user info", err);
-      handleFailure("Error fetching user info");
+      console.error('Failed to fetch user info', err);
+      handleFailure('Error fetching user info');
     }
   };
 
   const handleFailure = (errorMsg) => {
-    setCredentials({ ...credentials, isError: true, errorMsg });
-    console.log(errorMsg);
+    setCredentials((prev) => ({
+      ...prev,
+      isError: true,
+      errorMsg,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const apiUrl = "https://med-track-backend.onrender.com/login";
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    };
+    const apiUrl = 'https://med-track-backend.onrender.com/login';
 
     try {
-      const response = await fetch(apiUrl, options);
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
+
       const data = await response.json();
 
       if (response.ok) {
         handleSuccessful(data);
       } else {
-        handleFailure(data.error_msg);
+        handleFailure(data.error_msg || 'Login failed');
       }
     } catch (error) {
-      handleFailure("Network error");
+      handleFailure('Network error');
     }
   };
-  const token = Cookies.get("jwt_token");
-  if (token===undefined){
-    return navigate("/")
-  }
+
+  // 🚀 Navigate based on user role after fetching it
+  useEffect(() => {
+    if (userRole && userId) {
+      if (userRole === 'patient') {
+        navigate(`/patient-dashboard/${userId}`);
+      } else {
+        navigate('/caretaker-dashboard');
+      }
+    }
+  }, [userRole, userId, navigate]);
+
+  // ✅ Optional: Redirect to home if token exists
+  useEffect(() => {
+    const token = Cookies.get('jwt_token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
+
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
