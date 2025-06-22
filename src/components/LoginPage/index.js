@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './index.css';
@@ -13,14 +13,6 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  // ✅ Redirect to dashboard if already logged in
-  useEffect(() => {
-    const token = Cookies.get('jwt_token');
-    if (token !== undefined) {
-      navigate('/');
-    }
-  }, [navigate]);
-
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
@@ -28,12 +20,11 @@ const LoginPage = () => {
   const handleSuccessful = async (data) => {
     Cookies.set('jwt_token', data.jwtToken, { expires: 30 });
 
-    // ✅ Use credentials.username, not undefined formData
     const userRes = await fetch(
       `https://med-track-backend.onrender.com/users?username=${credentials.username}`
     );
     const userData = await userRes.json();
-    const user = Array.isArray(userData) ? userData[0] : userData; // adjust if backend returns array
+    const user = Array.isArray(userData) ? userData[0] : userData;
 
     if (user?.role === 'patient') {
       navigate(`/patient-dashboard/${user.id}`);
@@ -51,7 +42,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login credentials:', credentials);
 
     const apiUrl = 'https://med-track-backend.onrender.com/login';
 
@@ -105,4 +95,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
