@@ -30,7 +30,7 @@ const LoginPage = () => {
 
     // ✅ Use credentials.username, not undefined formData
     const userRes = await fetch(
-      `http://localhost:3000/users?username=${credentials.username}`
+      `https://med-track-backend.onrender.com/users?username=${credentials.username}`
     );
     const userData = await userRes.json();
     const user = Array.isArray(userData) ? userData[0] : userData; // adjust if backend returns array
@@ -53,7 +53,7 @@ const LoginPage = () => {
     e.preventDefault();
     console.log('Login credentials:', credentials);
 
-    const apiUrl = 'http://localhost:3000/login';
+    const apiUrl = 'https://med-track-backend.onrender.com/login';
 
     const options = {
       method: 'POST',
