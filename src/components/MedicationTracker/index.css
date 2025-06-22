@@ -1,0 +1,165 @@
+/* Base styling */
+.tracker-form,
+.tracker-completed {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Completed Box */
+.status-box {
+  background: #ECFDF5;
+  border: 2px solid #A7F3D0;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.status-check {
+  width: 3rem;
+  height: 3rem;
+  background-color: #10B981;
+  color: white;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* Medication Info Block */
+.medication-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F0FDF4;
+  border: 2px solid #BBF7D0;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.medication-info .left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.circle.green {
+  background-color: #10B981;
+  color: white;
+}
+
+.circle.blue {
+  background-color: #3B82F6;
+  color: white;
+}
+
+.badge {
+  background-color: #D1FAE5;
+  color: #065F46;
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Upload Section */
+.upload-card {
+  border: 2px dashed #CBD5E1;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: #F8FAFC;
+}
+
+.upload-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.upload-card h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.upload-card p {
+  color: #64748B;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.upload-card button {
+  background-color: #2563EB;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.upload-card button:hover {
+  background-color: #1D4ED8;
+}
+
+.preview {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.preview img {
+  max-width: 100%;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 2px solid #E2E8F0;
+}
+
+.preview p {
+  margin-top: 0.5rem;
+  color: #475569;
+  font-size: 0.875rem;
+}
+
+/* Submit Button */
+.submit-btn {
+  background-color: #10B981;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #059669;
+}
+
+.submit-btn:disabled {
+  background-color: #94A3B8;
+  cursor: not-allowed;
+}
+
+/* Note Text */
+.note {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #94A3B8;
+}
