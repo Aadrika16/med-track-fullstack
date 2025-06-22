@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie"
 import MedicationTracker from "../MedicationTracker";
@@ -15,31 +15,32 @@ const PatientDashboard = () => {
   const isTaken = medicationLogs.some(log => log.date_taken === dateKey);
 
   // ✅ Define fetchLogs BEFORE useEffect or usage
-  const fetchLogs = async () => {
+   const fetchLogs = useCallback(async () => {
     try {
-      const res = await fetch(`https://med-track-backend.onrender.com/medication_logs/${userId}`);
+      const res = await fetch(`http://localhost:3000/medication_logs/${userId}`);
       const data = await res.json();
       setMedicationLogs(data);
     } catch (err) {
       console.error("Failed to fetch logs", err);
     }
-  };
-
-  const fetchMedications = async () => {
+  }, [userId]);
+  const fetchMedications = useCallback(async () => {
     try {
-      const res = await fetch(`https://med-track-backend.onrender.com/medications/${userId}`);
+      const res = await fetch(`http://localhost:3000/medications/${userId}`);
       const data = await res.json();
       setMedications(data);
     } catch (err) {
       console.error("Failed to fetch medications", err);
     }
-  };
+  }, [userId]);
 
-  // ✅ Use both functions after declaration
   useEffect(() => {
     fetchLogs();
     fetchMedications();
-  }, [userId]);
+  }, [fetchLogs, fetchMedications]);
+
+  // ✅ Use both functions after declaration
+  
 
   const handleMarkTaken = async (date , medicationId , image) => {
     try { 
