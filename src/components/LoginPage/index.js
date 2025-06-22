@@ -20,7 +20,7 @@ const LoginPage = () => {
     Cookies.set("jwt_token" , data.jwtToken , {expires:30})  
 
      // Get user info
-      const userRes = await fetch(http://localhost:3000/users?username=${formData.username});
+      const userRes = await fetch(`http://localhost:3000/users?username=${formData.username}`);
       const user = await userRes.json();
 
       if (user.role === "patient") {
