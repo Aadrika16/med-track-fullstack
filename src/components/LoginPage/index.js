@@ -59,7 +59,10 @@ const LoginPage = () => {
         handleFailure(data.error_msg)
     }
   };
-  
+  const token = Cookies.get("jwt_token") 
+  if (token===undefined){
+    return navigate("/signup")
+  }
     return (
       <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit}>
